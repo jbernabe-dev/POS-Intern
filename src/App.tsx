@@ -1,121 +1,140 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
+import { useMemo, useState } from 'react'
+import {
+  Header,
+  OrderPanel,
+  ProductCatalog,
+  type CartLine,
+  type NavItem,
+  type PaymentMethod,
+} from './assets/components'
+import { RecentOrdersPage } from './assets/pages'
+import { PRODUCTS } from './assets/products'
 import './App.css'
 
+const INITIAL_ORDER: Record<string, number> = {
+  'iced-latte': 2,
+  'avocado-toast': 1,
+  'blueberry-muffin': 1,
+}
+
 function App() {
-  const [count, setCount] = useState(0)
+  const [cart, setCart] = useState<CartLine[]>(() =>
+    Object.entries(INITIAL_ORDER).flatMap(([id, quantity]) => {
+      const product = PRODUCTS.find((item) => item.id === id)
+      return product ? [{ product, quantity }] : []
+    }),
+  )
+  const [category, setCategory] = useState('All Items')
+  const [search, setSearch] = useState('')
+  const [activeNav, setActiveNav] = useState<NavItem>('Register')
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('Cash')
+  const [isHeld, setIsHeld] = useState(false)
+  const [hasDiscount, setHasDiscount] = useState(false)
+  const [hasCustomer, setHasCustomer] = useState(false)
+  const [isShiftActive, setIsShiftActive] = useState(true)
+  const [message, setMessage] = useState('')
+
+  const visibleProducts = useMemo(() => {
+    const query = search.trim().toLowerCase()
+
+    return PRODUCTS.filter((product) => {
+      const matchesCategory =
+        category === 'All Items' || product.category === category
+      const matchesSearch =
+        !query ||
+        `${product.name} ${product.description} ${product.category}`
+          .toLowerCase()
+          .includes(query)
+
+      return matchesCategory && matchesSearch
+    })
+  }, [category, search])
+
+  function addToCart(productId: string) {
+    const product = PRODUCTS.find((item) => item.id === productId)
+    if (!product) return
+
+    setMessage('')
+    setCart((currentCart) => {
+      const existingItem = currentCart.find(
+        (item) => item.product.id === productId,
+      )
+
+      if (existingItem) {
+        return currentCart.map((item) =>
+          item.product.id === productId
+            ? { ...item, quantity: item.quantity + 1 }
+            : item,
+        )
+      }
+
+      return [...currentCart, { product, quantity: 1 }]
+    })
+  }
+
+  function updateQuantity(productId: string, change: number) {
+    setCart((currentCart) =>
+      currentCart
+        .map((item) =>
+          item.product.id === productId
+            ? { ...item, quantity: item.quantity + change }
+            : item,
+        )
+        .filter((item) => item.quantity > 0),
+    )
+  }
+
+  function chargeOrder(total: number) {
+    setCart([])
+    setIsHeld(false)
+    setHasDiscount(false)
+    setHasCustomer(false)
+    setMessage(`${paymentMethod} payment of $${total.toFixed(2)} complete.`)
+  }
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div className="app-shell">
+      <Header
+        activeNav={activeNav}
+        isShiftActive={isShiftActive}
+        onNavigate={setActiveNav}
+        onShiftToggle={() => setIsShiftActive((active) => !active)}
+      />
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+      {activeNav === 'Recent Orders' ? (
+        <RecentOrdersPage />
+      ) : (
+        <main className="pos-layout">
+          <ProductCatalog
+            category={category}
+            products={visibleProducts}
+            search={search}
+            onAdd={addToCart}
+            onCategoryChange={setCategory}
+            onSearchChange={setSearch}
+          />
+          <OrderPanel
+            cart={cart}
+            hasCustomer={hasCustomer}
+            hasDiscount={hasDiscount}
+            isHeld={isHeld}
+            isShiftActive={isShiftActive}
+            message={message}
+            paymentMethod={paymentMethod}
+            onCharge={chargeOrder}
+            onClear={() => {
+              setCart([])
+              setMessage('')
+            }}
+            onCustomerToggle={() => setHasCustomer((assigned) => !assigned)}
+            onDiscountToggle={() => setHasDiscount((discounted) => !discounted)}
+            onHoldToggle={() => setIsHeld((held) => !held)}
+            onPaymentChange={setPaymentMethod}
+            onQuantityChange={updateQuantity}
+          />
+        </main>
+      )}
+    </div>
   )
 }
 
