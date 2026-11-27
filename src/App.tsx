@@ -1,3 +1,6 @@
+import { useState } from 'react'
+import LoginPage from './features/cashier-login/LoginPage'
+import RegistrationPage from './features/cashier-registration/RegistrationPage'
 import { useMemo, useState } from 'react'
 import {
   Header,
@@ -18,6 +21,13 @@ const INITIAL_ORDER: Record<string, number> = {
 }
 
 function App() {
+  const [page, setPage] = useState<'login' | 'register'>('login')
+
+  if (page === 'register') {
+    return <RegistrationPage onCancel={() => setPage('login')} />
+  }
+
+  return <LoginPage onRegister={() => setPage('register')} />
   const [cart, setCart] = useState<CartLine[]>(() =>
     Object.entries(INITIAL_ORDER).flatMap(([id, quantity]) => {
       const product = PRODUCTS.find((item) => item.id === id)

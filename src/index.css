@@ -1,15 +1,18 @@
+@import "@fontsource-variable/geist";
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Geist Variable", sans-serif;
+}
+
 :root {
-  font-family: Georgia, 'Times New Roman', serif;
-  color: #17263a;
-  background: #f6f7fc;
+  font-family: "Geist Variable", sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #17243a;
-  background-color: #f5f7fb;
-
-  font-optical-sizing: auto;
+  color: #233144;
+  background: #f7f8ff;
 }
 
 * {
