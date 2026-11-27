@@ -1,4 +1,4 @@
-import Button from '../../components/Button'
+import Button from './KeypadButton'
 
 type NumericKeypadProps = {
   onDigit: (digit: string) => void

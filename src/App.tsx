@@ -1,7 +1,6 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import LoginPage from './features/cashier-login/LoginPage'
 import RegistrationPage from './features/cashier-registration/RegistrationPage'
-import { useMemo, useState } from 'react'
 import {
   Header,
   OrderPanel,
@@ -21,13 +20,7 @@ const INITIAL_ORDER: Record<string, number> = {
 }
 
 function App() {
-  const [page, setPage] = useState<'login' | 'register'>('login')
-
-  if (page === 'register') {
-    return <RegistrationPage onCancel={() => setPage('login')} />
-  }
-
-  return <LoginPage onRegister={() => setPage('register')} />
+  const [page, setPage] = useState<'login' | 'register' | 'pos'>('login')
   const [cart, setCart] = useState<CartLine[]>(() =>
     Object.entries(INITIAL_ORDER).flatMap(([id, quantity]) => {
       const product = PRODUCTS.find((item) => item.id === id)
@@ -100,6 +93,19 @@ function App() {
     setHasDiscount(false)
     setHasCustomer(false)
     setMessage(`${paymentMethod} payment of $${total.toFixed(2)} complete.`)
+  }
+
+  if (page === 'register') {
+    return <RegistrationPage onCancel={() => setPage('login')} />
+  }
+
+  if (page === 'login') {
+    return (
+      <LoginPage
+        onRegister={() => setPage('register')}
+        onSignIn={() => setPage('pos')}
+      />
+    )
   }
 
   return (

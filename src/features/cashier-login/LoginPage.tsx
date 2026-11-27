@@ -14,9 +14,10 @@ const staffMembers: StaffMember[] = [
 
 type LoginPageProps = {
   onRegister: () => void
+  onSignIn: () => void
 }
 
-function LoginPage({ onRegister }: LoginPageProps) {
+function LoginPage({ onRegister, onSignIn }: LoginPageProps) {
   const [selectedStaff, setSelectedStaff] = useState(staffMembers[0])
   const [pin, setPin] = useState('')
   const [notice, setNotice] = useState('')
@@ -39,8 +40,9 @@ function LoginPage({ onRegister }: LoginPageProps) {
       return
     }
 
-    setNotice('Sign-in is unavailable until an authentication service is connected.')
-  }, [pin])
+    // TODO: verify the PIN once an authentication service is connected.
+    onSignIn()
+  }, [pin, onSignIn])
 
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
