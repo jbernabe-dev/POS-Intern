@@ -17,6 +17,14 @@ const variantClasses: Record<ButtonVariant, string> = {
 
 function Button({
   variant = 'keypad',
+import './Button.css'
+
+type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+  variant?: 'primary' | 'secondary'
+}
+
+export function Button({
+  variant = 'secondary',
   className = '',
   type = 'button',
   ...props
@@ -25,6 +33,8 @@ function Button({
     <button
       type={type}
       className={`flex h-[62px] w-full items-center justify-center rounded-[4px] text-[20px] font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${variantClasses[variant]} ${className}`}
+      className={`button button--${variant} ${className}`.trim()}
+      type={type}
       {...props}
     />
   )
