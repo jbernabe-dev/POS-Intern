@@ -6,9 +6,10 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: #17243a;
+  background-color: #f5f7fb;
 
   font-optical-sizing: auto;
-  font-weight: 400;
 }
 
 * {

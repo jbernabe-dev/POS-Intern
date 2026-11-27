@@ -1234,169 +1234,182 @@
   list-style: none;
 }
 
-.receipt-lines li {
+.tender-row {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
+  min-width: 0;
+  align-items: center;
   gap: 8px;
+  border-radius: 3px;
+  background: #eef3ff;
+  padding: 8px 9px;
 }
 
-.receipt-lines p {
-  margin: 0;
-  color: #17263a;
+.tender-details {
+  display: grid;
+  min-width: 0;
+  gap: 3px;
+}
+
+.tender-details strong,
+.tender-amount strong {
+  color: #25364e;
   font-size: 10px;
 }
 
-.receipt-lines span {
-  color: #596679;
-  font-size: 8px;
+.tender-details small,
+.tender-amount small {
+  color: #68758a;
+  font-size: 9px;
 }
 
-.receipt-lines strong {
-  font-size: 11px;
+.tender-amount {
+  display: grid;
+  gap: 3px;
+  margin-left: auto;
+  text-align: right;
   white-space: nowrap;
 }
 
-.receipt-totals {
-  display: grid;
-  gap: 6px;
-  padding: 12px;
-  border-radius: 5px;
-  background: #eef2fc;
+.batch-total {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: auto;
+  background: #e4edff;
+  padding: 8px 10px;
+  color: #25364e;
+  font-size: 10px;
 }
 
-.receipt-totals div {
+.action-footer {
   display: flex;
+  min-height: 66px;
   align-items: center;
   justify-content: space-between;
-  color: #43536a;
-  font-size: 9px;
+  gap: 16px;
+  padding: 12px 16px;
 }
 
-.receipt-totals strong {
-  color: #17263a;
-  font-size: 11px;
-}
-
-.receipt-totals .receipt-grand-total {
-  margin-top: 4px;
-  padding-top: 8px;
-  border-top: 1px solid #dde3f1;
-}
-
-.receipt-grand-total strong:first-child {
-  font-size: 13px;
-}
-
-.receipt-grand-total strong:last-child {
-  color: #2d6a4f;
-  font-size: 13px;
-}
-
-.receipt-payment {
+.report-actions,
+.finalize-actions {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 10px;
-  border-radius: 5px;
-  background: #f4f6fc;
-  font-size: 9px;
 }
 
-.receipt-payment div {
+.finalize-label {
   display: grid;
-  flex: 1;
   gap: 2px;
+  margin-right: 4px;
+  text-align: right;
 }
 
-.receipt-payment span {
-  color: #596679;
-  font-size: 8px;
-}
-
-.receipt-payment-icon {
-  width: 14px;
-  height: 14px;
-  color: #2d6a4f;
-}
-
-.receipt-check {
-  width: 13px;
-  height: 13px;
-  color: #2d6a4f;
-}
-
-.receipt-actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px;
-}
-
-.receipt-button,
-.reprint-button,
-.refund-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  min-height: 30px;
-  border: 0;
-  border-radius: 4px;
-  font-size: 10px;
-  font-weight: 700;
-}
-
-.receipt-button {
-  background: #e3eafb;
-  color: #26364d;
-}
-
-.receipt-button:hover {
-  background: #d6e0f7;
-}
-
-.reprint-button {
-  min-height: 34px;
-  background: #2d6a4f;
-  color: #fff;
-}
-
-.reprint-button:hover {
-  background: #245a42;
-}
-
-.refund-button {
-  margin-top: -6px;
-  background: #fde1de;
-  color: #b3261e;
-}
-
-.refund-button:hover:not(:disabled) {
-  background: #fbd0cb;
-}
-
-.refund-button:disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
-}
-
-.receipt-message {
-  margin: 0;
-  color: #2d6a4f;
+.finalize-label small {
+  color: #667287;
   font-size: 9px;
-  text-align: center;
+}
+
+.finalize-label strong {
+  color: #007451;
+  font-size: 10px;
 }
 
 @media (max-width: 900px) {
+  .topbar-inner {
+    flex-wrap: wrap;
+    gap: 10px 16px;
+    padding: 10px 0;
+  }
+
+  .main-nav {
+    order: 1;
+    width: 100%;
+    justify-content: flex-start;
+    overflow-x: auto;
+  }
+
+  .details-grid {
+    grid-template-columns: 1fr 0.85fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .topbar-inner,
+  .dashboard {
+    width: min(100% - 28px, 1360px);
+  }
+
   .stats-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .orders-layout {
-    grid-template-columns: minmax(0, 1fr);
+  .details-grid {
+    grid-template-columns: 1fr;
   }
 
-  .orders-toolbar {
+  .action-footer {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .report-actions,
+  .finalize-actions {
     flex-wrap: wrap;
   }
+
+  .finalize-actions {
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 460px) {
+  .topbar-inner,
+  .dashboard {
+    width: min(100% - 20px, 1360px);
+  }
+
+  .terminal-status {
+    margin-left: auto;
+  }
+
+  .summary-card {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .register-status {
+    width: 100%;
+  }
+
+  .cash-facts {
+    grid-template-columns: 1fr;
+  }
+
+  .report-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .report-actions .button {
+    width: 100%;
+  }
+
+  .finalize-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .finalize-label {
+    text-align: left;
+  }
+}
+
+.stat-value,
+.fact-card strong,
+.expected-row strong,
+.cash-input-wrap input,
+.tender-details strong,
+.tender-amount strong,
+.batch-total strong {
+  font-family: var(--app-font-family);
 }
