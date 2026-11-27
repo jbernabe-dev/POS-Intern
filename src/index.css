@@ -1,39 +1,7 @@
-@font-face {
-  font-family: 'Liberation Serif';
-  src: url('./assets/fonts/LiberationSerif-Regular.ttf') format('truetype');
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Liberation Serif';
-  src: url('./assets/fonts/LiberationSerif-Bold.ttf') format('truetype');
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Liberation Serif';
-  src: url('./assets/fonts/LiberationSerif-Italic.ttf') format('truetype');
-  font-style: italic;
-  font-weight: 400;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Liberation Serif';
-  src: url('./assets/fonts/LiberationSerif-BoldItalic.ttf') format('truetype');
-  font-style: italic;
-  font-weight: 700;
-  font-display: swap;
-}
-
 :root {
-  --app-font-family: 'Liberation Serif', Georgia, 'Times New Roman', serif;
-
-  font-family: var(--app-font-family);
+  font-family: Georgia, 'Times New Roman', serif;
+  color: #17263a;
+  background: #f6f7fc;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -49,11 +17,26 @@
 }
 
 body {
-  min-width: 320px;
+  min-width: 360px;
   min-height: 100vh;
   margin: 0;
 }
 
+button,
+input {
+  font: inherit;
+}
+
 button {
-  font-family: inherit;
+  cursor: pointer;
+}
+
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid #08795b;
+  outline-offset: 2px;
+}
+
+#root {
+  min-height: 100vh;
 }
